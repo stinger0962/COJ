@@ -152,14 +152,14 @@ exports.routing = router_1.RouterModule.forRoot(routes);
 /***/ "./src/app/components/editor/editor.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "@media screen {\r\n  #editor {\r\n    height: 600px;\r\n  }\r\n}\r\n\r\n.lang-select {\r\n  width: 100px;\r\n  margin-right: 10px;\r\n}\r\n\r\nheader .btn {\r\n  margin: 0 5px;\r\n}\r\n\r\nfooter .btn {\r\n  margin: 0 5px;\r\n}\r\n\r\n.editor-header, .editor-footer {\r\n  margin: 10px 0;\r\n}\r\n\r\n.cursor {\r\n  background: rgba(0, 250, 0, 0.5);\r\n  z-index: 40;\r\n  width: 2px !important;\r\n}\r\n"
+module.exports = "@media screen {\n  #editor {\n    height: 600px;\n  }\n}\n\n.lang-select {\n  width: 100px;\n  margin-right: 10px;\n}\n\nheader .btn {\n  margin: 0 5px;\n}\n\nfooter .btn {\n  margin: 0 5px;\n}\n\n.editor-header, .editor-footer {\n  margin: 10px 0;\n}\n\n.cursor {\n  background: rgba(0, 250, 0, 0.5);\n  z-index: 40;\n  width: 2px !important;\n}\n"
 
 /***/ }),
 
 /***/ "./src/app/components/editor/editor.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section>\r\n  <!-- header includes language selection and reset -->\r\n  <header class=\"editor-header\">\r\n    <div class=\"row\">\r\n      <select class=\"form-control pull-left lang-select\"\r\n       name=\"language\" [(ngModel)]=\"language\"\r\n       (change)=\"setLanguage(language)\">\r\n      <option *ngFor=\"let language of languages\"\r\n      [value]=\"language\">\r\n      {{language}}\r\n      </select>\r\n\r\n      <!-- reset button and its modal -->\r\n      <button type=\"button\" class=\"btn btn-primary\"\r\n      data-toggle=\"modal\" data-target=\"#myModal\">\r\n        reset\r\n      </button>\r\n\r\n      <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\"\r\n      role=\"dialog\" aria-labelledby=\"modalLabel\"\r\n      aria-hidden=\"true\">\r\n        <div class=\"modal-dialog\">\r\n          <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n              <h5 class=\"modal-title\" id=\"modalLabel\">\r\n              Are you sure\r\n              </h5>\r\n              <button type=\"button\" class=\"close\" data-dismiss=\"modal\"\r\n              aria-label=\"close\">\r\n                <span aria-hidden=\"true\">&times;</span>\r\n              </button>\r\n            </div>\r\n\r\n            <div class=\"modal-body\">\r\n              You will lose current code in the editor, are you sure?\r\n            </div>\r\n\r\n            <div class=\"modal-footer\">\r\n              <button type=\"button\" class=\"btn btn-secondary\"\r\n              data-dismiss=\"modal\">\r\n                Cancel\r\n              </button>\r\n              <button type=\"button\" class=\"btn btn-primary\"\r\n              data-dismiss=\"modal\" (click)=\"resetEditor()\">\r\n                reset\r\n              </button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </header>\r\n  <!-- body: editor-->\r\n  <div id=\"editor\"></div>\r\n\r\n  <!-- footer: submit button-->\r\n  <footer class=\"editor-footer\">\r\n    <button type=\"button\" class=\"btn btn-success pull-right\"\r\n    (click)=\"submit()\">Submit Sulution</button>\r\n  </footer>\r\n\r\n</section>\r\n"
+module.exports = "<section>\n  <!-- header includes language selection and reset -->\n  <header class=\"editor-header\">\n    <div class=\"row\">\n      <select class=\"form-control pull-left lang-select\"\n       name=\"language\" [(ngModel)]=\"language\"\n       (change)=\"setLanguage(language)\">\n      <option *ngFor=\"let language of languages\"\n      [value]=\"language\">\n      {{language}}\n      </select>\n\n      <!-- reset button and its modal -->\n      <button type=\"button\" class=\"btn btn-primary\"\n      data-toggle=\"modal\" data-target=\"#myModal\">\n        reset\n      </button>\n\n      <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\"\n      role=\"dialog\" aria-labelledby=\"modalLabel\"\n      aria-hidden=\"true\">\n        <div class=\"modal-dialog\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <h5 class=\"modal-title\" id=\"modalLabel\">\n              Are you sure\n              </h5>\n              <button type=\"button\" class=\"close\" data-dismiss=\"modal\"\n              aria-label=\"close\">\n                <span aria-hidden=\"true\">&times;</span>\n              </button>\n            </div>\n\n            <div class=\"modal-body\">\n              You will lose current code in the editor, are you sure?\n            </div>\n\n            <div class=\"modal-footer\">\n              <button type=\"button\" class=\"btn btn-secondary\"\n              data-dismiss=\"modal\">\n                Cancel\n              </button>\n              <button type=\"button\" class=\"btn btn-primary\"\n              data-dismiss=\"modal\" (click)=\"resetEditor()\">\n                reset\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n  <!-- body: editor-->\n  <div id=\"editor\"></div>\n\n  <div>\n    {{users}}\n  </div>\n\n  <!-- footer: submit button-->\n  <footer class=\"editor-footer\">\n    <button type=\"button\" class=\"btn btn-success pull-right\"\n    (click)=\"submit()\">Submit Sulution</button>\n  </footer>\n\n</section>\n"
 
 /***/ }),
 
@@ -181,24 +181,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var collaboration_service_1 = __webpack_require__("./src/app/services/collaboration.service.ts");
+var data_service_1 = __webpack_require__("./src/app/services/data.service.ts");
 var EditorComponent = /** @class */ (function () {
-    function EditorComponent(collaboration, route) {
+    function EditorComponent(collaboration, route, dataService) {
         this.collaboration = collaboration;
         this.route = route;
+        this.dataService = dataService;
         this.languages = ['Java', 'Python'];
         this.language = 'Java';
         this.defaultContent = {
             'Java': "public class Solution {\n      public static void main(String[] args) {\n        // Type your code here.\n      }\n    }",
-            'Python': "class Solution:\n    def example():\n      # Type your code here."
+            'Python': "class Solution:\n    def example():\n      # Type your code here.",
+            'C++': "int main()\n    {\n      return 0;\n    }"
         };
     }
     EditorComponent.prototype.ngOnInit = function () {
-        // initialize editor
-        this.initEditor();
-        // get session(room) id for this problem
-        this.getSessionId();
-        // initialize collaboration service
-        this.collaboration.init(this.editor, this.sessionId);
+        var _this = this;
+        // fire these events each time redirect to/refresh page
+        this.route.params.subscribe(function (params) {
+            _this.sessionId = params['id'];
+            _this.initEditor();
+            _this.collaboration.restoreBuffer();
+        });
     };
     EditorComponent.prototype.initEditor = function () {
         var _this = this;
@@ -206,8 +210,10 @@ var EditorComponent = /** @class */ (function () {
         this.editor = ace.edit("editor");
         // set default properties for the editor
         this.editor.setTheme("ace/theme/chrome");
-        this.editor.session.setMode("ace/mode/java");
-        this.editor.setValue(this.defaultContent["Java"], 1);
+        this.resetEditor();
+        // initialize collaboration service
+        this.subscriptionUsers = this.collaboration.init(this.editor, this.sessionId)
+            .subscribe(function (users) { return _this.users = users; });
         this.editor.lastAppliedChange = null;
         // editor's change event will trigger socket's emit change
         this.editor.on("change", function (e) {
@@ -230,12 +236,6 @@ var EditorComponent = /** @class */ (function () {
         var user_code = this.editor.getValue();
         console.log(user_code);
     };
-    EditorComponent.prototype.getSessionId = function () {
-        var _this = this;
-        this.route.params.subscribe(function (params) {
-            _this.sessionId = params['id'];
-        });
-    };
     EditorComponent = __decorate([
         core_1.Component({
             selector: 'app-editor',
@@ -243,7 +243,8 @@ var EditorComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/components/editor/editor.component.css")]
         }),
         __metadata("design:paramtypes", [collaboration_service_1.CollaborationService,
-            router_1.ActivatedRoute])
+            router_1.ActivatedRoute,
+            data_service_1.DataService])
     ], EditorComponent);
     return EditorComponent;
 }());
@@ -255,7 +256,7 @@ exports.EditorComponent = EditorComponent;
 /***/ "./src/app/components/navbar/navbar.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".dropdown-menu li:hover {\r\n    cursor: pointer;\r\n}\r\n"
+module.exports = ".dropdown-menu li:hover {\n    cursor: pointer;\n}\n"
 
 /***/ }),
 
@@ -471,7 +472,7 @@ exports.ProblemDetailComponent = ProblemDetailComponent;
 /***/ "./src/app/components/problem-list/problem-list.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".difficulty {\r\n    min-width: 65px;\r\n    margin-right: 10px;\r\n  }\r\n\r\n  .badge.difficulty {\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.4em;\r\n    color: #fbfdfa;\r\n    font-size: 12px;\r\n  }\r\n\r\n  .title {\r\n    font-size: 1.2em;\r\n  }\r\n\r\n  .diff-easy {\r\n    background-color: #89D5C9;\r\n  }\r\n\r\n  .diff-medium {\r\n    background-color: #FAC172;\r\n  }\r\n\r\n  .diff-hard {\r\n    background-color: #E25B45;\r\n  }\r\n\r\n  .diff-super {\r\n    background-color: #8869A5;\r\n  }\r\n"
+module.exports = ".difficulty {\n    min-width: 65px;\n    margin-right: 10px;\n  }\n\n  .badge.difficulty {\n    padding-top: 0.3em;\n    padding-bottom: 0.4em;\n    color: #fbfdfa;\n    font-size: 12px;\n  }\n\n  .title {\n    font-size: 1.2em;\n  }\n\n  .diff-easy {\n    background-color: #89D5C9;\n  }\n\n  .diff-medium {\n    background-color: #FAC172;\n  }\n\n  .diff-hard {\n    background-color: #E25B45;\n  }\n\n  .diff-super {\n    background-color: #8869A5;\n  }\n"
 
 /***/ }),
 
@@ -645,14 +646,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var Subject_1 = __webpack_require__("./node_modules/rxjs/_esm5/Subject.js");
 var CollaborationService = /** @class */ (function () {
     function CollaborationService() {
+        this._users$ = new Subject_1.Subject();
     }
-    // initialize a client socket, listening on change event
+    // initialize a client socket,
+    // listening on change, userChange event
+    // return user list as observable
     CollaborationService.prototype.init = function (editor, sessionId) {
+        var _this = this;
         // initialize a socket on current addr:port, pass query to server side
         this.collaborationSocket = io(window.location.origin, { query: 'sessionId=' + sessionId });
-        // socket receive change: update editor view
+        // socket receives a single change: update editor view
         this.collaborationSocket.on("change", function (delta) {
             console.log('editor change: ' + delta);
             delta = JSON.parse(delta); // reverse of stringify
@@ -660,10 +666,20 @@ var CollaborationService = /** @class */ (function () {
             editor.lastAppliedChange = delta;
             editor.getSession().getDocument().applyDeltas([delta]);
         });
+        // socket receives a list of users: return list as observable
+        this.collaborationSocket.on("userChange", function (users) {
+            console.log("client socket receives userChange: " + users);
+            _this._users$.next(users.toString());
+        });
+        return this._users$.asObservable();
     };
     // socket emit change, triggered by editor's change event
     CollaborationService.prototype.change = function (delta) {
         this.collaborationSocket.emit("change", delta);
+    };
+    // socket emit restore content, triggered by enter page
+    CollaborationService.prototype.restoreBuffer = function () {
+        this.collaborationSocket.emit("restoreBuffer");
     };
     CollaborationService = __decorate([
         core_1.Injectable(),

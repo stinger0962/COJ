@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { CollaborationService } from '../../services/collaboration.service';
+import { DataService } from '../../services/data.service';
+import { Subscription } from 'rxjs/Subscription';
 
 // use declare since ace is not devlared anywhere in .ts
 declare var ace: any;
@@ -23,21 +25,30 @@ export class EditorComponent implements OnInit {
     }`,
     'Python': `class Solution:
     def example():
-      # Type your code here.`
+      # Type your code here.`,
+    'C++': `int main()
+    {
+      return 0;
+    }`
   };
-  // sessionId is a room id for sockets to join
+  // sessionId equals to problemId, it is the room id for sockets to join
   sessionId: string;
+  users: string;
+  subscriptionUsers: Subscription;
 
   constructor(private collaboration: CollaborationService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private dataService: DataService) { }
 
   ngOnInit() {
-    // initialize editor
-    this.initEditor();
-    // get session(room) id for this problem
-    this.getSessionId();
-    // initialize collaboration service
-    this.collaboration.init(this.editor, this.sessionId);
+    // fire these events each time redirect to/refresh page
+    this.route.params.subscribe(params => {
+      this.sessionId = params['id'];
+      this.initEditor();
+      this.collaboration.restoreBuffer();
+    });
+
+
   }
 
   initEditor(): void {
@@ -45,8 +56,10 @@ export class EditorComponent implements OnInit {
     this.editor = ace.edit("editor");
     // set default properties for the editor
     this.editor.setTheme("ace/theme/chrome");
-    this.editor.session.setMode("ace/mode/java");
-    this.editor.setValue(this.defaultContent["Java"], 1);
+    this.resetEditor();
+    // initialize collaboration service
+    this.subscriptionUsers = this.collaboration.init(this.editor, this.sessionId)
+                            .subscribe(users => this.users = users);
     this.editor.lastAppliedChange = null;
     // editor's change event will trigger socket's emit change
     this.editor.on("change", e => {
@@ -73,10 +86,6 @@ export class EditorComponent implements OnInit {
     console.log(user_code);
   }
 
-  getSessionId(): void {
-    this.route.params.subscribe(params => {
-      this.sessionId = params['id'];
-    })
-  }
+
 
 }
