@@ -14,7 +14,7 @@ declare var ace: any;
 })
 export class EditorComponent implements OnInit {
   editor: any;
-  public languages: string[] = ['Java', 'Python'];
+  public languages: string[] = ['Java', 'Python', 'C++'];
   language: string = 'Java';
 
   defaultContent = {
@@ -35,6 +35,7 @@ export class EditorComponent implements OnInit {
   sessionId: string;
   users: string;
   subscriptionUsers: Subscription;
+  output: string = '';
 
   constructor(private collaboration: CollaborationService,
               private route: ActivatedRoute,
@@ -82,8 +83,15 @@ export class EditorComponent implements OnInit {
   }
 
   submit(): void {
-    let user_code = this.editor.getValue();
-    console.log(user_code);
+    let userCode = this.editor.getValue();
+    console.log(userCode);
+
+    const data = {
+      code: userCode,
+      lang: this.language.toLocaleLowerCase()
+    };
+
+    this.dataService.buildAndRun(data).then(res => this.output = res);
   }
 
 

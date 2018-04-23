@@ -37,4 +37,11 @@ export class NavbarComponent implements OnInit {
     this.input.changeDifficulty(this.selectedDiff);
   }
 
+  // clear filters on problem list
+  resetFilter(): void {
+    this.selectedDiff = '';
+    this.input.changeDifficulty(this.selectedDiff);
+    this.searchBox.setValue('');
+  }
+
 }
